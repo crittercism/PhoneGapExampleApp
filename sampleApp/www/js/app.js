@@ -64,7 +64,7 @@ var app = {
         });
 
         $('#set_metadata').click(function() {
-            Crittercism.setValueForKey('GameLevel', '5');
+            Crittercism.setValueForKey('5', 'Game Level');
         });
 
         $('#handled_exception').click(function() {
