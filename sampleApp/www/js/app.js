@@ -17,21 +17,21 @@
  * under the License.
  */
 
- var error1 = function ThrowNewError() {
-   return function FunctionB() {
-     return function FunctionC() {
-       throw new Error( "Error!" );
-     }
-   }
- }
+var error1 = function ThrowNewError() {
+    return function FunctionB() {
+        return function FunctionC() {
+            throw new Error( "Error!" );
+        }
+    }
+};
 
- var error2 = function NonsenseText() {
-   return function FunctionB() {
-     return function FunctionC() {
-       abc123       // ridiculous nonsense that causes a crash
-     }
-   }
- }
+var error2 = function NonsenseText() {
+    return function FunctionB() {
+        return function FunctionC() {
+            abc123       // ridiculous nonsense that causes a crash
+        }
+    }
+};
 
 var app = {
     // Application Constructor
@@ -51,28 +51,45 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         $('#crashButton').click(function() {
+            alert("CRASH");
             error1()()();       // ridiculous nonsense that causes a crash
         });
 
         $('#breadcrumb_submit').click(function() {
+            alert("LEAVE BREADCRUMB");
             var bcText = 'breadcrumb';
             Crittercism.leaveBreadcrumb(bcText);
         });
 
         $('#set_username').click(function() {
+            alert("SET USERNAME");
             Crittercism.setUsername('MommaCritter');
         });
 
         $('#set_metadata').click(function() {
+            alert("SET METADATA");
             Crittercism.setValueForKey('Game Level', '5');
         });
 
         $('#handled_exception').click(function() {
+            alert("HANDLED EXCEPTION");
             try {
-              error2()()();
+                error2()()();
             } catch(e) {
                 Crittercism.logHandledException(e);
             }
+        });
+
+        $('#network_request').click(function() {
+            alert("NETWORK REQUEST");
+            var xhr = new window.XMLHttpRequest();
+            xhr.open("GET", "https://www.googleapis.com/plus/v1/activities?query=Google%2B&orderBy=best");
+            xhr.onreadystatechange = function() {
+                if(this.readyState === 4) {
+                    alert(this.response);
+                }
+            };
+            xhr.send();
         });
     },
     // Update DOM on a Received Event
