@@ -1,45 +1,95 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width,initial-scale=1"/>
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="css/app.css" />
-        <meta name="msapplication-tap-highlight" content="no" />
-        <title>Hello World</title>
-    </head>
-    <body>
-        <div class="app btn-group-vertical">
-            <img src="img/c-gray.png" height="42" width="42" style="margin-bottom:10px"/>
-            <button type="button" class="btn btn-primary" id="breadcrumb_submit">Log breadcrumb</button>
-            <button type="button" class="btn btn-info" id="set_username">Set username</button>
-            <button type="button" class="btn btn-success" id="set_metadata">Set metadata</button>
-            <button type="button" class="btn btn-warning" id="handled_exception">Handled exception</button>
-            <button type="button" class="btn btn-danger" id="crashButton">Crash Application</button>
-        </div>
-
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/jquery.min.js"></script>
-        <script type="text/javascript" src="js/app.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-        </script>
-    </body>
+  <head>
+    <title>HTML5 Demo</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <script type="text/javascript" src="https://d1a62freaxhn7x.cloudfront.net/v1/crittercismClientLibraryMin.js"></script>
+  </head>
+  <body bgcolor="#ECEBEB">
+    <script type="text/javascript">
+function breadcrumb() {
+  var newBreadcrumb = document.getElementById("breadcrumbText").value;
+  Crittercism.leaveBreadcrumb(newBreadcrumb);
+};
+function username() {
+  var newUsername = document.getElementById("usernameText").value;
+  Crittercism.setUsername(newUsername);
+};
+function metadata() {
+  var newMetadata = document.getElementById("metadataText").value;
+  try {
+    Crittercism.setMetadata(JSON.parse(newMetadata));
+  } catch (e) {
+    alert("Invalid JSON, aborting"+e);
+  };
+};
+function exception() {
+  var exceptionName = document.getElementById("exceptionNameText").value;
+  var exceptionMessage = document.getElementById("exceptionMessageText").value;
+  Crittercism.logHandledException({
+    name: exceptionName,
+    message: exceptionMessage
+  });
+};
+function crash() {
+  crash456;       // ridiculous nonsense that causes a crash
+};
+function displayNavigator() {
+  alert(navigator.userAgent);
+};
+Crittercism.init({
+  appId:       '542f320c0729df4e69000007',
+  appVersion:  '1.0'
+});
+    </script>
+    <p id="critter" align="center">HTML5 Demo</p>
+    <table align="center">
+      <tr>
+        <td>
+          <button id="breadcrumbButton" onclick="breadcrumb()">Leave Breadcrumb:</button>
+        </td>
+        <td>
+          <input id="breadcrumbText" type="text" value="My Breadcrumb" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button id="usernameButton" onclick="username()">Set Username:</button>
+        </td>
+        <td>
+          <input id="usernameText" type="text" value="My Critter" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button id="metadataButton" onclick="metadata()">Set Metadata:</button>
+        </td>
+        <td>
+          <input id="metadataText" type="text" value='{"a":1,"b":2}' />
+        </td>
+      </tr>
+      <tr>
+        <td valign="top">
+          <button id="exceptionButton" onclick="exception()">Log Handled Exception:</button>
+        </td>
+        <td>
+          <input id="exceptionNameText" type="text" value="Error" /><br />
+          <input id="exceptionMessageText" type="text" value="exception message!!!" />
+        </td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="center" colspan="2">
+          <button id="crashButton" onclick="crash()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Crash&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" colspan="2">
+          <button id="navigatorButton" onclick="displayNavigator()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Navigator&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+        </td>
+      </tr>
+    </table>
+  </body>
 </html>
