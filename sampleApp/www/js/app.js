@@ -50,7 +50,9 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        $('#crashButton').click(function() {
+        var jqChecked, jqXHR, XHR;
+
+        $('#crash_application').click(function() {
             alert("CRASH");
             error1()()();       // ridiculous nonsense that causes a crash
         });
@@ -80,17 +82,71 @@ var app = {
             }
         });
 
-        $('#network_request').click(function() {
-            alert("NETWORK REQUEST");
-            var xhr = new window.XMLHttpRequest();
-            xhr.open("GET", "https://www.googleapis.com/plus/v1/activities?query=Google%2B&orderBy=best");
-            xhr.onreadystatechange = function() {
-                if(this.readyState === 4) {
-                    alert(this.response);
-                }
-            };
-            xhr.send();
+        $('#test_APM').click(function() {
+            $('#default').fadeOut();
+            $('#service_monitoring').fadeIn();
         });
+
+        $('#go_back').click(function() {
+            $('#service_monitoring').fadeOut();
+            $('#default').fadeIn();
+        });
+
+        $('#send_request').click(function() {
+            jqChecked = $('#jquery').attr('checked');
+            var syncChecked = $('#sync').attr('checked');
+            var url = $('#request_url').val();
+            var type = $('#request_type').val();
+
+            var timeout = parseInt($('#request_timeout').val());
+            var timeout_checked;
+            if(typeof timeout === 'number'){
+                timeout_checked = timeout;
+            }
+
+            var bytes_in = parseInt($('#request_bytes_in').val());
+            var data;
+            if(typeof bytes_in === 'number' && bytes_in > 0){
+                data = new Array(bytes_in + 1).join( 'a' );
+            }
+
+            var params = {
+                async: !syncChecked,
+                type: type,
+                url: url,
+                timeout: timeout_checked,
+                data: data
+            };
+
+            alert(JSON.stringify(params));
+
+            if(jqChecked) {
+                params.complete = function() {
+                    alert("Response: " + jqXHR.response);
+                };
+                jqXHR = $.ajax(params);
+            } else {
+                XHR = new window.XMLHttpRequest();
+                XHR.open(type, url, !syncChecked);
+                if(timeout_checked){
+                    XHR.timeout = timeout_checked;
+                }
+                XHR.onloadend = function() {
+                    alert("Response: " + XHR.response);
+                };
+                XHR.send(data);
+            }
+        });
+
+        $('abort_request').click(function() {
+            if(jqChecked) {
+                jqXHR.abort();
+            } else {
+                XHR.abort();
+            }
+        });
+
+        $('#service_monitoring').hide();
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {

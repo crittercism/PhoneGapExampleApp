@@ -26,14 +26,28 @@
     <title>Hello World</title>
 </head>
 <body>
-<div class="app btn-group-vertical">
+<div id="default" class="app btn-group-vertical">
     <img src="img/c-gray.png" height="42" width="42" style="margin-bottom:10px"/>
     <button type="button" class="btn btn-primary" id="breadcrumb_submit">Log breadcrumb</button>
-    <button type="button" class="btn btn-info" id="set_username">Set username</button>
-    <button type="button" class="btn btn-success" id="set_metadata">Set metadata</button>
-    <button type="button" class="btn btn-warning" id="handled_exception">Handled exception</button>
-    <button type="button" class="btn btn-danger" id="crashButton">Crash Application</button>
-    <button type="button" class="btn btn-primary" id="network_request">Send Network Request</button>
+    <button type="button" class="btn btn-primary" id="set_username">Set username</button>
+    <button type="button" class="btn btn-primary" id="set_metadata">Set metadata</button>
+    <button type="button" class="btn btn-primary" id="handled_exception">Handled exception</button>
+    <button type="button" class="btn btn-primary" id="crash_application">Crash Application</button>
+    <button type="button" class="btn btn-success" id="test_APM">Test APM</button>
+</div>
+<div id="service_monitoring" class="app btn-group-vertical">
+    <!-- jquery request / XMLHttprequest -->
+    <div class="btn btn-success">
+        <input type="checkbox" id="jquery" value="jquery"> jquery
+        <input type="checkbox" id="sync" value="sync"> Sync
+    </div>
+    <button type="button" class="btn btn-success" id="send_request">Send request</button>
+    <button type="button" class="btn btn-success" id="abort_request">Abort request</button>
+    <input class="form-control" type="email" id="request_url" placeholder="Request URL">
+    <input class="form-control" type="email" id="request_type" placeholder="Request type (ex. GET, POST)">
+    <input class="form-control" type="email" id="request_timeout" placeholder="Request timeout (ms), blank = none">
+    <input class="form-control" type="email" id="request_bytes_in" placeholder="Size of data to send">
+    <button type="button" class="btn btn-primary" id="go_back">Back</button>
 </div>
 
 <script type="text/javascript" src="cordova.js"></script>
