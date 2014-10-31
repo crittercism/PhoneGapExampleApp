@@ -50,7 +50,32 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        var jqChecked, jqXHR, XHR;
+        var jqXHR, XHR;
+        var http_type = "http", sync = false, jquery = false, response_code, delay, timeout = 0, type = "GET", bytes_out = 0, bytes_in = 0;
+        var data;
+
+        function makeXMLHttpRequest(URL) {
+            XHR = new window.XMLHttpRequest();
+            XHR.timeout = timeout;
+            XHR.open(type, URL, !sync);
+            XHR.onloadend = function() {
+                alert(this.response);
+            };
+            XHR.send(data);
+        }
+
+        function makeJQRequest(URL) {
+            jqXHR = $.ajax({
+                url: URL,
+                type: type,
+                async: !sync,
+                timeout: timeout,
+                data: data,
+                complete: function() {
+                    alert(this.response);
+                }
+            });
+        }
 
         $('#crash_application').click(function() {
             alert("CRASH");
@@ -87,59 +112,101 @@ var app = {
             $('#service_monitoring').fadeIn();
         });
 
+        $("input:radio[name=http_type]").click(function() {
+            http_type = $('input:radio[name=http_type]:checked').val();
+            if (http_type == "https://sni.velox.ch/") {
+                if (jquery) {
+                    makeJQRequest(http_type);
+                    alert("sent jquery GET request to https://sni.velox.ch/");
+                } else {
+                    makeXMLHttpRequest(http_type);
+                    alert("sent XMLHttp GET request to https://sni.velox.ch/");
+                }
+            } else {
+                alert("set base url to " + http_type);
+            }
+        });
+
+        $("input:radio[name=sync]").click(function() {
+            var bool = $('input:radio[name=sync]:checked').val();
+            sync = (bool === "true");
+            alert("set synchronous to " + sync);
+        });
+
+        $("input:radio[name=jquery]").click(function() {
+            var bool = $('input:radio[name=jquery]:checked').val();
+            jquery = (bool === "true");
+            alert("set jquery to " + jquery);
+        });
+
+        $("input:radio[name=response_code]").click(function() {
+            response_code = $('input:radio[name=response_code]:checked').val();
+            var URL = http_type + "://httpbin.org/status/" + response_code + "/";
+            if (jquery) {
+                makeJQRequest(URL);
+                alert("sent jquery GET request to " + URL);
+            } else {
+                makeXMLHttpRequest(URL);
+                alert("sent XMLHttp GET request to " + URL);
+            }
+        });
+
+        $("input:radio[name=delay]").click(function() {
+            delay = $('input:radio[name=delay]:checked').val();
+            var URL = http_type + "://httpbin.org/delay/" + delay + "/";
+            if (jquery) {
+                makeJQRequest(URL);
+                alert("sent jquery GET request to " + URL + "with delay of " + delay + " s");
+            } else {
+                makeXMLHttpRequest(URL);
+                alert("sent XMLHttp GET request to " + URL + "with delay of " + delay + " s");
+            }
+        });
+
+        $("input:radio[name=timeout]").click(function() {
+            timeout = parseInt($('input:radio[name=timeout]:checked').val());
+            alert("set timeout to " + timeout + " ms");
+        });
+
+        $("input:radio[name=type]").click(function() {
+            type = $('input:radio[name=type]:checked').val();
+            var URL = http_type + "://httpbin.org/" + type + "/";
+            if (jquery) {
+                makeJQRequest(URL);
+                alert("sent jquery " + type + " request to " + URL);
+            } else {
+                makeXMLHttpRequest(URL);
+                alert("sent XMLHttp " + type + " request to " + URL);
+            }
+        });
+
+        $("input:radio[name=bytes_out]").click(function() {
+            bytes_out = $('input:radio[name=bytes_out]:checked').val();
+            if(typeof bytes_out === 'number' && bytes_out > 0){
+                data = new Array(bytes_out + 1).join( 'a' );
+            }
+            alert("created data object of " + bytes_out + " bytes to be sent");
+        });
+
+        $("input:radio[name=bytes_in]").click(function() {
+            bytes_in = $('input:radio[name=bytes_in]:checked').val();
+            var URL = http_type + "://httpbin.org/bytes/" + bytes_in + "/";
+            if (jquery) {
+                makeJQRequest(URL);
+                alert("sent jquery request for " + bytes_in + " bytes to " + URL);
+            } else {
+                makeXMLHttpRequest(URL);
+                alert("sent XMLHttp request for " + bytes_in + " bytes to " + URL);
+            }
+        });
+
         $('#go_back').click(function() {
             $('#service_monitoring').fadeOut();
             $('#default').fadeIn();
         });
 
-        $('#send_request').click(function() {
-            jqChecked = $('#jquery').attr('checked');
-            var syncChecked = $('#sync').attr('checked');
-            var url = $('#request_url').val();
-            var type = $('#request_type').val();
-
-            var timeout = parseInt($('#request_timeout').val());
-            var timeout_checked;
-            if(typeof timeout === 'number'){
-                timeout_checked = timeout;
-            }
-
-            var bytes_in = parseInt($('#request_bytes_in').val());
-            var data;
-            if(typeof bytes_in === 'number' && bytes_in > 0){
-                data = new Array(bytes_in + 1).join( 'a' );
-            }
-
-            var params = {
-                async: !syncChecked,
-                type: type,
-                url: url,
-                timeout: timeout_checked,
-                data: data
-            };
-
-            alert(JSON.stringify(params));
-
-            if(jqChecked) {
-                params.complete = function() {
-                    alert("Response: " + jqXHR.response);
-                };
-                jqXHR = $.ajax(params);
-            } else {
-                XHR = new window.XMLHttpRequest();
-                XHR.open(type, url, !syncChecked);
-                if(timeout_checked){
-                    XHR.timeout = timeout_checked;
-                }
-                XHR.onloadend = function() {
-                    alert("Response: " + XHR.response);
-                };
-                XHR.send(data);
-            }
-        });
-
         $('abort_request').click(function() {
-            if(jqChecked) {
+            if(jquery) {
                 jqXHR.abort();
             } else {
                 XHR.abort();
