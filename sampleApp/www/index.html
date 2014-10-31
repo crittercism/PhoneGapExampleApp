@@ -17,6 +17,7 @@
     specific language governing permissions and limitations
     under the License.
 -->
+
 <html>
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
@@ -36,17 +37,61 @@
     <button type="button" class="btn btn-success" id="test_APM">Test APM</button>
 </div>
 <div id="service_monitoring" class="app btn-group-vertical">
-    <!-- jquery request / XMLHttprequest -->
-    <div class="btn btn-success">
-        <input type="checkbox" id="jquery" value="jquery"> jquery
-        <input type="checkbox" id="sync" value="sync"> Sync
-    </div>
-    <button type="button" class="btn btn-success" id="send_request">Send request</button>
+    <form action="">
+        <input type="radio" name="http_type" value="http">http
+        <input type="radio" name="http_type" value="https">https
+        <input type="radio" name="http_type" value="https://sni.velox.ch/">sni (not configurable)
+    </form>
+    <form action="">
+        <input type="radio" name="sync" value="true">Synchronous
+        <input type="radio" name="sync" value="false">Asynchronous
+    </form>
+    <form action="">
+        <input type="radio" name="jquery" value="true">jQuery
+        <input type="radio" name="jquery" value="false">Plain XMLHttpRequest
+    </form>
+    <form action="">
+        Status (Cannot be used w/
+        <input type="radio" name="response_code" value="0">0
+        <input type="radio" name="response_code" value="200">200
+        <input type="radio" name="response_code" value="404">404
+        <input type="radio" name="response_code" value="500">500
+    </form>
+    <form action="">
+        Delay (s)
+        <input type="radio" name="delay" value="1">1
+        <input type="radio" name="delay" value="2">2
+        <input type="radio" name="delay" value="5">5
+        <input type="radio" name="delay" value="10">10
+    </form>
+    <form action="">
+        Timeout (ms)
+        <input type="radio" name="timeout" value="0">None
+        <input type="radio" name="timeout" value="1">1
+        <input type="radio" name="timeout" value="10">10
+        <input type="radio" name="timeout" value="100">100
+        <input type="radio" name="timeout" value="1000">1000
+    </form>
+    <form action="">
+        Type
+        <input type="radio" name="type" value="get">GET
+        <input type="radio" name="type" value="post">POST
+    </form>
+    <form action="">
+        Bytes out
+        <input type="radio" name="bytes_out" value="0">0
+        <input type="radio" name="bytes_out" value="10">10
+        <input type="radio" name="bytes_out" value="100">100
+        <input type="radio" name="bytes_out" value="1000">1000
+    </form>
+    <form action="">
+        Bytes in
+        <input type="radio" name="bytes_in" value="0">0
+        <input type="radio" name="bytes_in" value="100">100
+        <input type="radio" name="bytes_in" value="1000">1000
+        <input type="radio" name="bytes_in" value="10000">10000
+    </form>
     <button type="button" class="btn btn-success" id="abort_request">Abort request</button>
-    <input class="form-control" type="email" id="request_url" placeholder="Request URL">
-    <input class="form-control" type="email" id="request_type" placeholder="Request type (ex. GET, POST)">
-    <input class="form-control" type="email" id="request_timeout" placeholder="Request timeout (ms), blank = none">
-    <input class="form-control" type="email" id="request_bytes_in" placeholder="Size of data to send">
     <button type="button" class="btn btn-primary" id="go_back">Back</button>
 </div>
 
