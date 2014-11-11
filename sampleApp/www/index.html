@@ -37,60 +37,77 @@
     <button type="button" class="btn btn-success" id="test_APM">Test APM</button>
 </div>
 <div id="service_monitoring" class="app btn-group-vertical">
+    <h4>Configuration</h4>
+
+    <b>URL Scheme</b>
     <form action="">
-        <input type="radio" name="http_type" value="http">http
-        <input type="radio" name="http_type" value="https">https
-        <input type="radio" name="http_type" value="https://sni.velox.ch/">sni (not configurable)
+        <input type="radio" name="url_scheme" value="http" checked="true">http&nbsp;
+        <input type="radio" name="url_scheme" value="https">https
     </form>
+    <br>
+
+    <b>Timing</b>
     <form action="">
-        <input type="radio" name="sync" value="true">Synchronous
-        <input type="radio" name="sync" value="false">Asynchronous
+        <input type="radio" name="sync" value="true">Synchronous&nbsp;
+        <input type="radio" name="sync" value="false" checked="true">Asynchronous
     </form>
+    <br>
+
+    <b>Networking API</b>
     <form action="">
-        <input type="radio" name="jquery" value="true">jQuery
-        <input type="radio" name="jquery" value="false">Plain XMLHttpRequest
+        <input type="radio" name="jquery" value="true">jQuery&nbsp;
+        <input type="radio" name="jquery" value="false" checked="true">XMLHttpRequest
     </form>
+    <br>
+
+    <b>Timeout Period</b>
     <form action="">
-        Status (Cannot be used w/
-        <input type="radio" name="response_code" value="0">0
-        <input type="radio" name="response_code" value="200">200
-        <input type="radio" name="response_code" value="404">404
-        <input type="radio" name="response_code" value="500">500
+        <input type="radio" name="timeout" value="0" checked="true">Default&nbsp;
+        <input type="radio" name="timeout" value="1000">1000ms&nbsp;
+        <input type="radio" name="timeout" value="5000">5000ms
     </form>
+    <br>
+
+    <b>HTTP Method</b>
     <form action="">
-        Delay (s)
-        <input type="radio" name="delay" value="1">1
-        <input type="radio" name="delay" value="2">2
-        <input type="radio" name="delay" value="5">5
-        <input type="radio" name="delay" value="10">10
+        <input type="radio" name="http_method" value="get" checked="true">GET
+        <input type="radio" name="http_method" value="post">POST
     </form>
+    <br>
+
+    <b>Size of request payload</b>
     <form action="">
-        Timeout (ms)
-        <input type="radio" name="timeout" value="0">None
-        <input type="radio" name="timeout" value="1">1
-        <input type="radio" name="timeout" value="10">10
-        <input type="radio" name="timeout" value="100">100
-        <input type="radio" name="timeout" value="1000">1000
+        <input type="radio" name="bytes_out" value="0" checked="true">0kb
+        <input type="radio" name="bytes_out" value="1024">1k
+        <input type="radio" name="bytes_out" value="8192">8k
+        <input type="radio" name="bytes_out" value="65536">64k
     </form>
-    <form action="">
-        Type
-        <input type="radio" name="type" value="get">GET
-        <input type="radio" name="type" value="post">POST
-    </form>
-    <form action="">
-        Bytes out
-        <input type="radio" name="bytes_out" value="0">0
-        <input type="radio" name="bytes_out" value="10">10
-        <input type="radio" name="bytes_out" value="100">100
-        <input type="radio" name="bytes_out" value="1000">1000
-    </form>
-    <form action="">
-        Bytes in
-        <input type="radio" name="bytes_in" value="0">0
-        <input type="radio" name="bytes_in" value="100">100
-        <input type="radio" name="bytes_in" value="1000">1000
-        <input type="radio" name="bytes_in" value="10000">10000
-    </form>
+
+    <br>
+    <h4>Actions</h4>
+
+    <b>Status Code Tests</b>
+    <br>
+
+    <button type="button" id="response_code_101">101</button>
+    <button type="button" id="response_code_200">200</button>
+    <button type="button" id="response_code_404">404</button>
+    <button type="button" id="response_code_500">500</button>
+    <br>
+
+    <br><b>Response Time Tests</b><br>
+    <button type="button" id="delay_1">1s</button>
+    <button type="button" id="delay_2">2s</button>
+    <button type="button" id="delay_5">5s</button>
+    <br>
+
+    <br><b>Response Payload Tests</b><br>
+    <button type="button" id="bytes_in_0">0k</button>
+    <button type="button" id="bytes_in_4k">4k</button>
+    <button type="button" id="bytes_in_8k">8k</button>
+
+    <br>
+    <br>
     <button type="button" class="btn btn-success" id="abort_request">Abort request</button>
     <button type="button" class="btn btn-primary" id="go_back">Back</button>
 </div>

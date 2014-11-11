@@ -51,13 +51,22 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         var jqXHR, XHR;
-        var http_type = "http", sync = false, jquery = false, response_code, delay, timeout = 0, type = "GET", bytes_out = 0, bytes_in = 0;
+        var url_scheme = "http",
+          sync = false,
+          jquery = false,
+          response_code,
+          delay,
+          timeout = 0,
+          http_method = "GET",
+          bytes_out = 0,
+          bytes_in = 0
+          make_request = makeXMLHttpRequest;
         var data;
 
         function makeXMLHttpRequest(URL) {
             XHR = new window.XMLHttpRequest();
             XHR.timeout = timeout;
-            XHR.open(type, URL, !sync);
+            XHR.open(http_method, URL, !sync);
             XHR.onloadend = function() {
                 alert(this.response);
             };
@@ -67,7 +76,7 @@ var app = {
         function makeJQRequest(URL) {
             jqXHR = $.ajax({
                 url: URL,
-                type: type,
+                type: http_method,
                 async: !sync,
                 timeout: timeout,
                 data: data,
@@ -112,19 +121,9 @@ var app = {
             $('#service_monitoring').fadeIn();
         });
 
-        $("input:radio[name=http_type]").click(function() {
-            http_type = $('input:radio[name=http_type]:checked').val();
-            if (http_type == "https://sni.velox.ch/") {
-                if (jquery) {
-                    makeJQRequest(http_type);
-                    alert("sent jquery GET request to https://sni.velox.ch/");
-                } else {
-                    makeXMLHttpRequest(http_type);
-                    alert("sent XMLHttp GET request to https://sni.velox.ch/");
-                }
-            } else {
-                alert("set base url to " + http_type);
-            }
+        $("input:radio[name=url_scheme]").click(function() {
+            url_scheme = $('input:radio[name=url_scheme]:checked').val();
+            console.log("set base url to " + url_scheme);
         });
 
         $("input:radio[name=sync]").click(function() {
@@ -136,48 +135,51 @@ var app = {
         $("input:radio[name=jquery]").click(function() {
             var bool = $('input:radio[name=jquery]:checked').val();
             jquery = (bool === "true");
+
+            if (jquery) {
+              make_request = makeJQRequest;
+            } else {
+              make_request = makeXMLHttpRequest;
+            }
             alert("set jquery to " + jquery);
         });
 
-        $("input:radio[name=response_code]").click(function() {
-            response_code = $('input:radio[name=response_code]:checked').val();
-            var URL = http_type + "://httpbin.org/status/" + response_code + "/";
-            if (jquery) {
-                makeJQRequest(URL);
-                alert("sent jquery GET request to " + URL);
-            } else {
-                makeXMLHttpRequest(URL);
-                alert("sent XMLHttp GET request to " + URL);
-            }
+        $('#response_code_101').click(function() {
+            make_request(url_scheme + "://httpbin.org/status/101/");
         });
 
-        $("input:radio[name=delay]").click(function() {
-            delay = $('input:radio[name=delay]:checked').val();
-            var URL = http_type + "://httpbin.org/delay/" + delay + "/";
-            if (jquery) {
-                makeJQRequest(URL);
-                alert("sent jquery GET request to " + URL + "with delay of " + delay + " s");
-            } else {
-                makeXMLHttpRequest(URL);
-                alert("sent XMLHttp GET request to " + URL + "with delay of " + delay + " s");
-            }
+        $('#response_code_200').click(function() {
+            make_request(url_scheme + "://httpbin.org/status/200/");
+        });
+
+        $('#response_code_404').click(function() {
+            make_request(url_scheme + "://httpbin.org/status/404/");
+        });
+
+        $('#response_code_500').click(function() {
+            make_request(url_scheme + "://httpbin.org/status/500/");
+        });
+
+        $('#delay_1').click(function() {
+            make_request(url_scheme + "://httpbin.org/delay/1/");
+        });
+
+        $('#delay_2').click(function() {
+            make_request(url_scheme + "://httpbin.org/delay/2/");
+        });
+
+        $('#delay_5').click(function() {
+            make_request(url_scheme + "://httpbin.org/delay/5/");
         });
 
         $("input:radio[name=timeout]").click(function() {
             timeout = parseInt($('input:radio[name=timeout]:checked').val());
-            alert("set timeout to " + timeout + " ms");
+            console.log("set timeout to " + timeout + " ms");
         });
 
-        $("input:radio[name=type]").click(function() {
-            type = $('input:radio[name=type]:checked').val();
-            var URL = http_type + "://httpbin.org/" + type + "/";
-            if (jquery) {
-                makeJQRequest(URL);
-                alert("sent jquery " + type + " request to " + URL);
-            } else {
-                makeXMLHttpRequest(URL);
-                alert("sent XMLHttp " + type + " request to " + URL);
-            }
+        $("input:radio[name=http_method]").click(function() {
+            http_method = $('input:radio[name=http_method]:checked').val();
+            console.log("set http method to " + http_method);
         });
 
         $("input:radio[name=bytes_out]").click(function() {
@@ -185,12 +187,13 @@ var app = {
             if(typeof bytes_out === 'number' && bytes_out > 0){
                 data = new Array(bytes_out + 1).join( 'a' );
             }
-            alert("created data object of " + bytes_out + " bytes to be sent");
+
+            console.log("set bytes out  " + bytes_out);
         });
 
         $("input:radio[name=bytes_in]").click(function() {
             bytes_in = $('input:radio[name=bytes_in]:checked').val();
-            var URL = http_type + "://httpbin.org/bytes/" + bytes_in + "/";
+            var URL = url_scheme + "://httpbin.org/bytes/" + bytes_in + "/";
             if (jquery) {
                 makeJQRequest(URL);
                 alert("sent jquery request for " + bytes_in + " bytes to " + URL);
