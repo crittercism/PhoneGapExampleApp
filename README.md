@@ -6,9 +6,9 @@ To build and run:
 ```
 cd sampleApp/
 
-cordova platform update ios
+cordova platform add ios
 
-cordova platform update android
+cordova platform add android
 
 cordova -d plugin add https://github.com/crittercism/PhoneGap.git \
   --variable IOS_APP_ID="Your Application ID" \
