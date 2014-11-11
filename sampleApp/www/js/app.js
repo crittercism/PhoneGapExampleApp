@@ -50,26 +50,28 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        var jqXHR, XHR;
         var url_scheme = "http",
           sync = false,
-          jquery = false,
+          networking_api = "xhr",
           response_code,
+          data,
           delay,
+          jqXHR,
+          XHR,
           timeout = 0,
           http_method = "GET",
           bytes_out = 0,
           bytes_in = 0
           make_request = makeXMLHttpRequest;
-        var data;
 
         function makeXMLHttpRequest(URL) {
             XHR = new window.XMLHttpRequest();
             XHR.timeout = timeout;
             XHR.open(http_method, URL, !sync);
             XHR.onloadend = function() {
-                alert(this.response);
+                alert("Received response(" + XHR.status + ") from " + URL);
             };
+            console.log("sending data: " + data);
             XHR.send(data);
         }
 
@@ -81,34 +83,28 @@ var app = {
                 timeout: timeout,
                 data: data,
                 complete: function() {
-                    alert(this.response);
+                    alert("Received response from " + URL + "\nBody:\n" + this.response);
                 }
             });
         }
 
         $('#crash_application').click(function() {
-            alert("CRASH");
             error1()()();       // ridiculous nonsense that causes a crash
         });
 
         $('#breadcrumb_submit').click(function() {
-            alert("LEAVE BREADCRUMB");
-            var bcText = 'breadcrumb';
-            Crittercism.leaveBreadcrumb(bcText);
+            Crittercism.leaveBreadcrumb('breadcrumb');
         });
 
         $('#set_username').click(function() {
-            alert("SET USERNAME");
             Crittercism.setUsername('MommaCritter');
         });
 
         $('#set_metadata').click(function() {
-            alert("SET METADATA");
             Crittercism.setValueForKey('Game Level', '5');
         });
 
         $('#handled_exception').click(function() {
-            alert("HANDLED EXCEPTION");
             try {
                 error2()()();
             } catch(e) {
@@ -129,47 +125,43 @@ var app = {
         $("input:radio[name=sync]").click(function() {
             var bool = $('input:radio[name=sync]:checked').val();
             sync = (bool === "true");
-            alert("set synchronous to " + sync);
+            console.log("set synchronous to " + sync);
         });
 
-        $("input:radio[name=jquery]").click(function() {
-            var bool = $('input:radio[name=jquery]:checked').val();
-            jquery = (bool === "true");
+        $("input:radio[name=networking_api]").click(function() {
+            networking_api = $('input:radio[name=networking_api]:checked').val();
 
-            if (jquery) {
+            if (networking_api) {
               make_request = makeJQRequest;
             } else {
               make_request = makeXMLHttpRequest;
             }
-            alert("set jquery to " + jquery);
+
+            console.log("set networking_api to " + networking_api);
         });
 
-        $('#response_code_101').click(function() {
-            make_request(url_scheme + "://httpbin.org/status/101/");
-        });
-
-        $('#response_code_200').click(function() {
-            make_request(url_scheme + "://httpbin.org/status/200/");
+        $('#response_code_202').click(function() {
+            make_request(url_scheme + "://httpbin.org/status/202");
         });
 
         $('#response_code_404').click(function() {
-            make_request(url_scheme + "://httpbin.org/status/404/");
+            make_request(url_scheme + "://httpbin.org/status/404");
         });
 
         $('#response_code_500').click(function() {
-            make_request(url_scheme + "://httpbin.org/status/500/");
+            make_request(url_scheme + "://httpbin.org/status/500");
         });
 
         $('#delay_1').click(function() {
-            make_request(url_scheme + "://httpbin.org/delay/1/");
+            make_request(url_scheme + "://httpbin.org/delay/1");
         });
 
         $('#delay_2').click(function() {
-            make_request(url_scheme + "://httpbin.org/delay/2/");
+            make_request(url_scheme + "://httpbin.org/delay/2");
         });
 
         $('#delay_5').click(function() {
-            make_request(url_scheme + "://httpbin.org/delay/5/");
+            make_request(url_scheme + "://httpbin.org/delay/5");
         });
 
         $("input:radio[name=timeout]").click(function() {
@@ -183,24 +175,25 @@ var app = {
         });
 
         $("input:radio[name=bytes_out]").click(function() {
-            bytes_out = $('input:radio[name=bytes_out]:checked').val();
-            if(typeof bytes_out === 'number' && bytes_out > 0){
+            bytes_out = parseInt($('input:radio[name=bytes_out]:checked').val());
+            data = undefined;
+
+            if(bytes_out > 0){
                 data = new Array(bytes_out + 1).join( 'a' );
             }
 
-            console.log("set bytes out  " + bytes_out);
         });
 
-        $("input:radio[name=bytes_in]").click(function() {
-            bytes_in = $('input:radio[name=bytes_in]:checked').val();
-            var URL = url_scheme + "://httpbin.org/bytes/" + bytes_in + "/";
-            if (jquery) {
-                makeJQRequest(URL);
-                alert("sent jquery request for " + bytes_in + " bytes to " + URL);
-            } else {
-                makeXMLHttpRequest(URL);
-                alert("sent XMLHttp request for " + bytes_in + " bytes to " + URL);
-            }
+        $('#bytes_in_0').click(function() {
+            make_request(url_scheme + "://httpbin.org/bytes/0");
+        });
+
+        $('#bytes_in_4k').click(function() {
+            make_request(url_scheme + "://httpbin.org/bytes/4096");
+        });
+
+        $('#bytes_in_8k').click(function() {
+            make_request(url_scheme + "://httpbin.org/bytes/8192");
         });
 
         $('#go_back').click(function() {
@@ -209,7 +202,7 @@ var app = {
         });
 
         $('abort_request').click(function() {
-            if(jquery) {
+            if(networking_api === "jquery") {
                 jqXHR.abort();
             } else {
                 XHR.abort();
