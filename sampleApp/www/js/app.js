@@ -196,7 +196,7 @@ var app = {
             make_request(url_scheme + "://httpbin.org/bytes/8192");
         });
 
-        $('#go_back').click(function() {
+        $('#return_from_service_monitoring').click(function() {
             $('#service_monitoring').fadeOut();
             $('#default').fadeIn();
         });
@@ -209,7 +209,83 @@ var app = {
             }
         });
 
+        $('#return_from_transactions').click(function() {
+            $('#transactions').fadeOut();
+            $('#default').fadeIn();
+        });
+
+        $('#test_transactions').click(function() {
+            $('#transactions').fadeIn();
+            $('#default').fadeOut();
+        });
+
+        var valueA = 1, valueB = 1, valueC = 1;
+
+        $('#transactionA_start').click(function() {
+            Crittercism.beginTransaction("A");
+        });
+
+        $('#transactionB_start').click(function() {
+            Crittercism.beginTransaction("B");
+        });
+
+        $('#transactionC_start').click(function() {
+            Crittercism.beginTransaction("C");
+        });
+
+        $('#transactionA_end').click(function() {
+            Crittercism.endTransaction("A");
+        });
+
+        $('#transactionB_end').click(function() {
+            Crittercism.endTransaction("B");
+        });
+
+        $('#transactionC_end').click(function() {
+            Crittercism.endTransaction("C");
+        });
+
+        $('#transactionA_fail').click(function() {
+            Crittercism.failTransaction("A");
+        });
+
+        $('#transactionB_fail').click(function() {
+            Crittercism.failTransaction("B");
+        });
+
+        $('#transactionC_fail').click(function() {
+            Crittercism.failTransaction("C");
+        });
+
+        $('#transactionA_increase').click(function() {
+            valueA++;
+            Crittercism.setTransactionValue("A", valueA);
+        });
+
+        $('#transactionB_increase').click(function() {
+            valueB++;
+            Crittercism.setTransactionValue("B", valueB);
+        });
+
+        $('#transactionC_increase').click(function() {
+            valueA++;
+            Crittercism.setTransactionValue("C", valueB);
+        });
+
+        $('#transactionA_get').click(function() {
+           alert("A value: " + Crittercism.getTransactionValue("A"));
+        });
+
+        $('#transactionB_get').click(function() {
+            alert("B value: " + Crittercism.getTransactionValue("B"));
+        });
+
+        $('#transactionC_get').click(function() {
+            alert("C value: " + Crittercism.getTransactionValue("C"));
+        });
+
         $('#service_monitoring').hide();
+        $('#transactions').hide();
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
