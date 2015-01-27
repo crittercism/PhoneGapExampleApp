@@ -233,6 +233,18 @@ var app = {
             Crittercism.beginTransaction("C");
         });
 
+        $('#transactionA_startWithValue').click(function() {
+            Crittercism.beginTransaction("A", 1);
+        });
+
+        $('#transactionB_startWithValue').click(function() {
+            Crittercism.beginTransaction("B", 1);
+        });
+
+        $('#transactionC_startWithValue').click(function() {
+            Crittercism.beginTransaction("C", 1);
+        });
+
         $('#transactionA_end').click(function() {
             Crittercism.endTransaction("A");
         });
@@ -268,8 +280,8 @@ var app = {
         });
 
         $('#transactionC_increase').click(function() {
-            valueA++;
-            Crittercism.setTransactionValue("C", valueB);
+            valueC++;
+            Crittercism.setTransactionValue("C", valueC);
         });
 
         $('#transactionA_get').click(function() {
