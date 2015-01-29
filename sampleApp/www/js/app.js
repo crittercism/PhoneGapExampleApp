@@ -285,15 +285,21 @@ var app = {
         });
 
         $('#transactionA_get').click(function() {
-           alert("A value: " + Crittercism.getTransactionValue("A"));
+           Crittercism.getTransactionValue("A", function(transactionValue) {
+               alert("A value: " + transactionValue);
+           })
         });
 
         $('#transactionB_get').click(function() {
-            alert("B value: " + Crittercism.getTransactionValue("B"));
+            Crittercism.getTransactionValue("B", function(transactionValue) {
+                alert("B value: " + transactionValue);
+            })
         });
 
         $('#transactionC_get').click(function() {
-            alert("C value: " + Crittercism.getTransactionValue("C"));
+            Crittercism.getTransactionValue("C", function(transactionValue) {
+                alert("C value: " + transactionValue);
+            })
         });
 
         $('#service_monitoring').hide();
