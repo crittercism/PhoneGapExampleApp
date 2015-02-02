@@ -201,6 +201,18 @@ var app = {
             $('#default').fadeIn();
         });
 
+        $('#manually_log_request_null').click(function() {
+            Crittercism.logNetworkRequest("GET", "https://null-param.com", 10, 20, 30, 200, null);
+        });
+
+        $('#manually_log_request_undefined').click(function() {
+            Crittercism.logNetworkRequest("GET", "https://undefined-param.com", 10, 20, 30, 666);
+        });
+
+        $('#manually_log_request_string').click(function() {
+            Crittercism.logNetworkRequest("GET", "https://string-param.com", 10, 20, 30, 200, "100");
+        });
+
         $('abort_request').click(function() {
             if(networking_api === "jquery") {
                 jqXHR.abort();
