@@ -35,6 +35,7 @@
     <button type="button" class="btn btn-primary" id="handled_exception">Handled exception</button>
     <button type="button" class="btn btn-primary" id="crash_application">Crash Application</button>
     <button type="button" class="btn btn-success" id="test_APM">Test APM</button>
+    <button type="button" class="btn btn-success" id="test_transactions">Test Transactions</button>
 </div>
 <div id="service_monitoring" class="app btn-group-vertical">
     <h4>Configuration</h4>
@@ -108,7 +109,53 @@
     <br>
     <br>
     <button type="button" class="btn btn-success" id="abort_request">Abort request</button>
-    <button type="button" class="btn btn-primary" id="go_back">Back</button>
+    <button type="button" class="btn btn-primary" id="return_from_service_monitoring">Back</button>
+</div>
+
+<div id="transactions" class="app btn-group-vertical">
+    <b>Transaction A</b>
+    <br>
+
+    <button type="button" id="transactionA_start">Start</button>
+    <button type="button" id="transactionA_startWithValue">StartWithValue</button>
+    <button type="button" id="transactionA_end">End</button>
+
+    <br>
+
+    <button type="button" id="transactionA_fail">Fail</button>
+    <button type="button" id="transactionA_increase">IncreaseValue</button>
+    <button type="button" id="transactionA_get">GetValue</button>
+
+    <br>
+    <b>Transaction B</b>
+    <br>
+
+    <button type="button" id="transactionB_start">Start</button>
+    <button type="button" id="transactionB_startWithValue">StartWithValue</button>
+    <button type="button" id="transactionB_end">End</button>
+
+    <br>
+
+    <button type="button" id="transactionB_fail">Fail</button>
+    <button type="button" id="transactionB_increase">IncreaseValue</button>
+    <button type="button" id="transactionB_get">GetValue</button>
+
+    <br>
+    <b>Transaction C</b>
+    <br>
+
+    <button type="button" id="transactionC_start">Start</button>
+    <button type="button" id="transactionC_startWithValue">StartWithValue</button>
+    <button type="button" id="transactionC_end">End</button>
+
+    <br>
+
+    <button type="button" id="transactionC_fail">Fail</button>
+    <button type="button" id="transactionC_increase">IncreaseValue</button>
+    <button type="button" id="transactionC_get">GetValue</button>
+
+    <br>
+    <button type="button" class="btn btn-primary" id="return_from_transactions">Back</button>
 </div>
 
 <script type="text/javascript" src="cordova.js"></script>
