@@ -4,8 +4,6 @@ PhoneGap Example App
 To build and run:
 
 ```
-cd sampleApp/
-
 cordova platform add ios
 
 cordova platform add android
