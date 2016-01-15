@@ -112,6 +112,35 @@ var app = {
             }
         });
 
+        var netReqIndex = 0;
+        var methods = ["GET", "PUT", "HEAD", "POST", "GET"];
+        var urls = ["http://critterbob.com",
+                    "https://crittertom.com/somePath/",
+                    "https://www.mommacritter.com",
+                    "https://critterquery.com/status?x=1 2 3&y=4 5 6&z=7 8",
+                    "critter://mal formedurl.com/still ok"];
+        var responseCodes = [200, 500, 0, 418, 202];
+        var errorCodes = [0, 0, 602, 0, 0];
+
+        // random integer in [m, n]
+        function randomInt(m, n) {
+            return Math.floor(Math.random() * (n - m + 1)) + m;
+        }
+
+        $('#log_net_request').click(function() {
+            var method = methods[netReqIndex % methods.length];
+            var url = urls[netReqIndex % urls.length];
+            var latency = randomInt(0, 5000);
+            var bytesRead = randomInt(0, 1000);
+            var bytesSent = randomInt(0, 1000);
+            var responseCode = responseCodes[netReqIndex % responseCodes.length];
+            var errorCode = errorCodes[netReqIndex % errorCodes.length]
+            netReqIndex = netReqIndex + 1;
+            Crittercism.logNetworkRequest(method, url, latency,
+                                          bytesRead, bytesSent,
+                                          responseCode, errorCode);
+        });
+
         $('#test_APM').click(function() {
             $('#default').fadeOut();
             $('#service_monitoring').fadeIn();
