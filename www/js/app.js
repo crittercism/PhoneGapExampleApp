@@ -114,10 +114,12 @@ var app = {
 
         var netReqIndex = 0;
         var methods = ["GET", "PUT", "HEAD", "POST", "GET"];
-        var urls = ["http://critterbob.com",
-                    "https://crittertom.com/somePath/",
-                    "https://www.mommacritter.com",
-                    "https://critterquery.com/status?x=1 2 3&y=4 5 6&z=7 8",
+        var urls = ["http://critter6789.com",
+                    "https://www.mommacritter7890.com",
+                    "https://critter9876query.com/somePath/good_query_string?x=1&y=2",
+                    "https://critter9876query.com/bad_query_string?x=1 2 3&y=4 5 6&z=7 8",
+                    // the following URL is malformed (not conforming to
+                    //   RFC 2396), but Crittercism will report it anyway:
                     "critter://mal formedurl.com/still ok"];
         var responseCodes = [200, 500, 0, 418, 202];
         var errorCodes = [0, 0, 602, 0, 0];
