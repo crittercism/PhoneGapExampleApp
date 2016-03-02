@@ -50,7 +50,8 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        initializeCrittercism();
+        Crittercism.init({ 'iosAppID' : 'YOUR_IOS_APP_ID',
+                       'androidAppID' : 'YOUR_ANDROID_APP_ID'});
         
         var url_scheme = "http",
           sync = false,
@@ -65,11 +66,6 @@ var app = {
           bytes_out = 0,
           bytes_in = 0
           make_request = makeXMLHttpRequest;
-
-        function initializeCrittercism() {
-            Crittercism.init({ 'iosAppID' : 'YOUR_IOS_APP_ID',
-                           'androidAppID' : 'YOUR_ANDROID_APP_ID'});
-        }
         
         function makeXMLHttpRequest(URL) {
             XHR = new window.XMLHttpRequest();
