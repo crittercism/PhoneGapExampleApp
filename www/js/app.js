@@ -50,8 +50,8 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        Crittercism.init({ 'iosAppID' : 'YOUR_IOS_APP_ID',
-                       'androidAppID' : 'YOUR_ANDROID_APP_ID'});
+        Crittercism.init({ 'iosAppID' : '4851c75a7c6a435590fe2bf9617fc96600555300',
+                       'androidAppID' : 'e916873f538248fab7f0dd32d30e80d600555300'});
         
         var url_scheme = "http",
           sync = false,
@@ -94,6 +94,47 @@ var app = {
         $('#crash_application').click(function() {
             error1()()();       // ridiculous nonsense that causes a crash
         });
+        
+        $('#crash_android').click(function() {
+            cordova.exec(
+                         // Register the callback handler
+                        function callback(data) {
+                            alert(data);
+                        },
+                        // Register the errorHandler
+                        function errorHandler(err) {
+                            alert(err);
+                        },
+                        // Define what class to route messages to
+                        'CrashAndroid',
+                        // Execute this method on the above class
+                        'execute',
+                        // An array containing one String (our newly created Date String).
+                        [ ]
+            );
+                                  
+        });
+        
+        $('#crash_iOS').click(function() {
+            cordova.exec(
+                         // Register the callback handler
+                         function callback(data) {
+                            alert(data);
+                         },
+                         // Register the errorHandler
+                         function errorHandler(err) {
+                            alert(err);
+                         },
+                         // Define what class to route messages to
+                        'CrashIOS',
+                        // Execute this method on the above class
+                        'execute',
+                        // An array containing one String (our newly created Date String).
+                        [ ]
+                        );
+
+        });
+
 
         $('#breadcrumb_submit').click(function() {
             Crittercism.leaveBreadcrumb('breadcrumb');
