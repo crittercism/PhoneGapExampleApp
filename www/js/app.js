@@ -50,8 +50,8 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        Crittercism.init({ 'iosAppID' : '4851c75a7c6a435590fe2bf9617fc96600555300',
-                       'androidAppID' : 'e916873f538248fab7f0dd32d30e80d600555300'});
+        Crittercism.init({ 'iosAppID' : 'YOUR_IOS_APP_ID',
+-                       'androidAppID' : 'YOUR_ANDROID_APP_ID'});
         
         var url_scheme = "http",
           sync = false,
