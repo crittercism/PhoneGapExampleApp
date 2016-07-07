@@ -9,6 +9,8 @@ PhoneGap Example App
     cordova platform add android
 
     cordova plugin add cordova-plugin-apteligent
+    
+    cordova plugin add ./native-crash-plugin
     ```
 
 2. Instantiate Crittercism SDK on 'deviceready' event in your javascript file
