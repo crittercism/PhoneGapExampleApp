@@ -51,7 +51,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         Crittercism.init({ 'iosAppID' : 'YOUR_IOS_APP_ID',
-                       'androidAppID' : 'YOUR_ANDROID_APP_ID'});
+-                       'androidAppID' : 'YOUR_ANDROID_APP_ID'});
         
         var url_scheme = "http",
           sync = false,
@@ -94,6 +94,47 @@ var app = {
         $('#crash_application').click(function() {
             error1()()();       // ridiculous nonsense that causes a crash
         });
+        
+        $('#crash_android').click(function() {
+            cordova.exec(
+                         // Register the callback handler
+                        function callback(data) {
+                            alert(data);
+                        },
+                        // Register the errorHandler
+                        function errorHandler(err) {
+                            alert(err);
+                        },
+                        // Define what class to route messages to
+                        'CrashAndroid',
+                        // Execute this method on the above class
+                        'execute',
+                        // An array containing one String (our newly created Date String).
+                        [ ]
+            );
+                                  
+        });
+        
+        $('#crash_iOS').click(function() {
+            cordova.exec(
+                         // Register the callback handler
+                         function callback(data) {
+                            alert(data);
+                         },
+                         // Register the errorHandler
+                         function errorHandler(err) {
+                            alert(err);
+                         },
+                         // Define what class to route messages to
+                        'CrashIOS',
+                        // Execute this method on the above class
+                        'execute',
+                        // An array containing one String (our newly created Date String).
+                        [ ]
+                        );
+
+        });
+
 
         $('#breadcrumb_submit').click(function() {
             Crittercism.leaveBreadcrumb('breadcrumb');
