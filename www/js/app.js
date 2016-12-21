@@ -51,7 +51,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         Crittercism.init({ 'iosAppID' : 'YOUR_IOS_APP_ID',
--                       'androidAppID' : 'YOUR_ANDROID_APP_ID'});
+                       'androidAppID' : 'YOUR_ANDROID_APP_ID'});
         
         var url_scheme = "http",
           sync = false,
